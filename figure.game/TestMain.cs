@@ -54,6 +54,19 @@ public class FigureGameTests
         Console.WriteLine($"Solved puzzle: {Helpers.isClearedMap()}"); //true
     }
 
+    public static void Test5()
+    {
+        Helpers.ReadData("test/test5.txt");
+        Helpers.PerformOperation(1, 1);
+        Helpers.PerformOperation(2, 0);
+        Helpers.PerformOperation(3, 0);
+        Helpers.PerformOperation(4, 1);
+        Helpers.PerformOperation(5, 3);
+        Helpers.PerformOperation(6, 3);
+        Helpers.PerformOperation(7, 2);
+        Console.WriteLine($"Solved puzzle: {Helpers.isClearedMap()}"); //true
+    }
+
     public static void RunAllTests()
     {
         Test1();
