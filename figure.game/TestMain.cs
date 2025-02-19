@@ -1,77 +1,47 @@
 using System;
-// using Xunit;
 
 public class FigureGameTests
 {
-    public static void Test1()
+    public static void RunAllTests(bool verbose = false)
     {
-        Helpers.ReadData("test/test1.txt");
-        Helpers.PerformOperation(1, 3);
-        Helpers.PerformOperation(2, 0);
-        Helpers.PerformOperation(3, 3);
-        Helpers.PerformOperation(4, 0);
-        Console.WriteLine($"Solved puzzle: {Helpers.isClearedMap()}"); //true
+        const int NumberOfTests = 9;
+        var TestNumbers = Enumerable.Range(1, NumberOfTests).ToList();
+        var Solutions = System.IO.File.ReadAllLines("test/testSolutions.txt");
+
+        var passed = 0; 
+
+        foreach (var number in TestNumbers)
+        {
+            Console.WriteLine($"Running test {number}: ");
+
+            Helpers.ReadData($"test/test{number}.txt");
+            Helpers.PrintData();
+
+            var operations = Solutions[number - 1].Split(' ').Select(int.Parse).ToList();
+            for (int i = 0; i < operations.Count; i++)
+            {
+                Helpers.PerformOperation(i + 1, operations[i], verbose: verbose);
+            }
+            Console.WriteLine($"Performed operations: {Solutions[number-1]}");
+            Console.WriteLine($"Solved test {number}: {Helpers.isClearedMap()}");
+            passed += Helpers.isClearedMap() ? 1 : 0;
+        }
+
+        Console.WriteLine($"Passed {passed} out of {NumberOfTests} tests");
     }
 
-    public static void Test2()
+    public static void RunTestWithSolution(int testNumber, List<int> operations, bool verbose = false)
     {
-        Helpers.ReadData("test/test2.txt");
-        Helpers.PerformOperation(1, 0);
-        Helpers.PerformOperation(2, 2);
-        Helpers.PerformOperation(3, 1);
-        Helpers.PerformOperation(4, 0);
-        Helpers.PerformOperation(5, 0);
-        Helpers.PerformOperation(6, 4);
-        Helpers.PerformOperation(7, 2);
-        Helpers.PerformOperation(8, 4);
-        Helpers.PerformOperation(9, 4);
-        Console.WriteLine($"Solved puzzle: {Helpers.isClearedMap()}"); //true
-    }
+        Console.WriteLine($"Running test {testNumber}: ");
 
-    public static void Test3()
-    {
-        Helpers.ReadData("test/test3.txt");
-        Helpers.PerformOperation(1, 4);
-        Helpers.PerformOperation(2, 3);
-        Helpers.PerformOperation(3, 2);
-        Helpers.PerformOperation(4, 0);
-        Helpers.PerformOperation(5, 1);
-        Helpers.PerformOperation(6, 0);
-        Helpers.PerformOperation(7, 2);
-        Helpers.PerformOperation(8, 0);
-        Helpers.PerformOperation(9, 0);
-        Console.WriteLine($"Solved puzzle: {Helpers.isClearedMap()}"); //true
-    }
+        Helpers.ReadData($"test/test{testNumber}.txt");
+        Helpers.PrintData();
 
-    public static void Test4()
-    {
-        Helpers.ReadData("test/test4.txt");
-        Helpers.PerformOperation(1, 1);
-        Helpers.PerformOperation(2, 0);
-        Helpers.PerformOperation(3, 2);
-        Helpers.PerformOperation(4, 4);
-        Helpers.PerformOperation(5, 0);
-        Console.WriteLine($"Solved puzzle: {Helpers.isClearedMap()}"); //true
-    }
-
-    public static void Test5()
-    {
-        Helpers.ReadData("test/test5.txt");
-        Helpers.PerformOperation(1, 1);
-        Helpers.PerformOperation(2, 0);
-        Helpers.PerformOperation(3, 0);
-        Helpers.PerformOperation(4, 1);
-        Helpers.PerformOperation(5, 3);
-        Helpers.PerformOperation(6, 3);
-        Helpers.PerformOperation(7, 2);
-        Console.WriteLine($"Solved puzzle: {Helpers.isClearedMap()}"); //true
-    }
-
-    public static void RunAllTests()
-    {
-        Test1();
-        Test2();
-        Test3();
-        Test4();
+        for (int i = 0; i < operations.Count; i++)
+        {
+            Helpers.PerformOperation(i + 1, operations[i], verbose: verbose);
+        }
+        Console.WriteLine($"Performed operations: {string.Join(" ", operations)}");
+        Console.WriteLine($"Solved test {testNumber}: {Helpers.isClearedMap()}");
     }
 }

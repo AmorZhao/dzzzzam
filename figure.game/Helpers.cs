@@ -69,13 +69,16 @@ class Helpers
         }
     }
 
-    public static List<List<char>> CreateNewColorMap(List<List<char>> data, int columnNumber)
+    public static List<List<char>> CreateNewColorMap(List<List<char>> data, int columnNumber, bool verbose = true)
     {
         var rowLength = data.Count;
         var colLength = data[0].Count;
 
         var color = data[0][columnNumber];  // C
-        Console.WriteLine($"Color: {color}");
+        if (verbose)
+        {
+            Console.WriteLine($"Color: {color}");
+        }
 
         List<List<char>> newColorMap = new List<List<char>>(rowLength);
         for (int i = 0; i < rowLength; i++)
@@ -120,7 +123,7 @@ class Helpers
         return newColorMap;
     }
 
-    public static void PerformOperation(int stepCounter, int columnNumber, bool isUndo = false)
+    public static void PerformOperation(int stepCounter, int columnNumber, bool isUndo = false, bool verbose = true)
     {
         if (isUndo)
         {
@@ -144,10 +147,17 @@ class Helpers
             );
         }
 
-        Console.WriteLine($"Operation on column {columnNumber}:");
-        dataHistory.Add(CreateNewColorMap(data, columnNumber));
-        Console.WriteLine($"Step {stepCounter}:");
-        PrintData();
+        if (verbose)
+        {
+            Console.WriteLine($"Step {stepCounter}: Operation on column {columnNumber}");
+        }
+
+        dataHistory.Add(CreateNewColorMap(data, columnNumber, verbose));
+
+        if (verbose)
+        {
+            PrintData();
+        }
     }
 
     public static bool isClearedMap(List<List<char>> data = null)

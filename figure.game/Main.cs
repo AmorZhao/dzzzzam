@@ -5,7 +5,7 @@
 #load "FigureGameSolver.cs"
 #load "testMain.cs"
 
-// FigureGameTests.RunAllTests(); 
+FigureGameTests.RunAllTests(); 
 
 const string testFilePath = "test/test4.txt";
 Helpers.ReadData(testFilePath);
