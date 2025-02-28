@@ -4,9 +4,9 @@ public class FigureGameTests
 {
     public static void RunAllTests(bool verbose = false)
     {
-        const int NumberOfTests = 9;
-        var TestNumbers = Enumerable.Range(1, NumberOfTests).ToList();
         var Solutions = System.IO.File.ReadAllLines("test/testSolutions.txt");
+        var NumberOfTests = Solutions.Length;
+        var TestNumbers = Enumerable.Range(1, NumberOfTests).ToList();
 
         var passed = 0; 
 
@@ -17,7 +17,7 @@ public class FigureGameTests
             Helpers.ReadData($"test/test{number}.txt");
             Helpers.PrintData();
 
-            var operations = Solutions[number - 1].Split(' ').Select(int.Parse).ToList();
+            var operations = Solutions[number - 1].Trim().Split(' ').Where(s => !string.IsNullOrEmpty(s)).Select(int.Parse).ToList();
             for (int i = 0; i < operations.Count; i++)
             {
                 Helpers.PerformOperation(i + 1, operations[i], verbose: verbose);
